@@ -1,0 +1,11 @@
+{
+    "files.associations": {
+        ".config/i3/config": "i3",
+        "*.tcc": "cpp",
+        "vector": "cpp",
+        "random": "cpp",
+        "functional": "cpp",
+        "memory_resource": "cpp",
+        "regex": "cpp"
+    }
+}

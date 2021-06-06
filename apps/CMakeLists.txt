@@ -1,0 +1,3 @@
+add_executable(BattleShipsPlusPlus battleships.cpp)
+
+target_link_libraries(BattleShipsPlusPlus TermOx)
