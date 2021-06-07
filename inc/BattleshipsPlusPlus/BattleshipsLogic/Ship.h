@@ -50,6 +50,9 @@ public:
     void isHit();
     ~Ship();
 
+    bool getDestroyed() const { return destroyed; }
+    void setDestroyed(bool destroyed_) { destroyed = destroyed_; }
+
 private:
     void destroyShip();
 };

@@ -1,3 +1,4 @@
 add_executable(BattleShipsPlusPlus battleships.cpp)
 
-target_link_libraries(BattleShipsPlusPlus TermOx)
+target_link_libraries(BattleShipsPlusPlus ${CURSES_LIBRARIES} DrawBattleships BattleshipsLogic)
+target_include_directories(BattleShipsPlusPlus PRIVATE ${CURSES_INCLUDE_DIRS})
