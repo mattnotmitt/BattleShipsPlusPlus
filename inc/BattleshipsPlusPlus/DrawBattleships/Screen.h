@@ -12,12 +12,11 @@
 #define SPACING    2
 
 class Screen {
-private:
-    GameState state;
-    
 public:
     Screen();
     ~Screen() = default;
+
+    GameState state;
 
     void placePlayerShip(Ship::ShipType type);
     void placeAiShips();

@@ -4,6 +4,7 @@
 
 #include "DrawBattleships/Screen.h"
 #include "BattleshipsLogic/Board.h"
+#include "BattleshipsBot.h"
 
 
 int main(int, char**) {
@@ -19,6 +20,9 @@ int main(int, char**) {
     std::string msg("Enemy AI is arranging their fleet...");
     mvwprintw(screen.cmdDisp, 0, 0, msg.c_str());
     wrefresh(screen.cmdDisp);
+
+    botPlaceShips(screen.state.aiBoard);
+    usleep(15 * 100000UL);
 
     getch();
     endwin(); 
