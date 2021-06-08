@@ -4,10 +4,11 @@
 
 class GameState {
 private:
-    Board playerBoard;
-    Board aiBoard;
     int   currentPlayer = 0;
 public:
-    GameState()  : playerBoard(), aiBoard() {};
+    GameState() {};
     ~GameState() = default;
+
+    Board playerBoard;
+    Board aiBoard;
 };

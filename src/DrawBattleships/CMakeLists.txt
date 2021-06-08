@@ -5,4 +5,4 @@ target_include_directories(DrawBattleships
             ${CMAKE_SOURCE_DIR}/inc/BattleshipsPlusPlus/DrawBattleships
             ${CURSES_INCLUDE_DIRS})
 
-target_link_libraries(DrawBattleships PUBLIC ${CURSES_LIBRARIES})
+target_link_libraries(DrawBattleships PUBLIC BattleshipsLogic ${CURSES_LIBRARIES})

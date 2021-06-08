@@ -5,14 +5,52 @@
 #include <string>
 #include <vector>
 
+typedef std::pair<int,int>      Pos;
+
 class Ship {
 public:
-    enum Bearing {
+    enum class Bearing : int {
         NEG_X = 1,
         POS_X = 2,
         NEG_Y = 3,
         POS_Y = 4
     };
+
+    static Bearing incBearing(Bearing bearing) {
+        switch (bearing) {
+            case Ship::Bearing::POS_X: 
+                bearing = Ship::Bearing::POS_Y;
+                break;
+            case Ship::Bearing::NEG_X:
+                bearing = Ship::Bearing::NEG_Y;
+                break;
+            case Ship::Bearing::POS_Y:
+                bearing = Ship::Bearing::NEG_X;
+                break;
+            case Ship::Bearing::NEG_Y:
+                bearing = Ship::Bearing::POS_X;
+                break;
+        }
+        return bearing;
+    }
+
+    static Pos nextPosFromBearing(Bearing bearing, Pos pos) {
+        switch (bearing) {
+            case Ship::Bearing::POS_X: 
+                pos.first++;
+                break;
+            case Ship::Bearing::NEG_X:
+                pos.first--;
+                break;
+            case Ship::Bearing::POS_Y:
+                pos.second++;
+                break;
+            case Ship::Bearing::NEG_Y:
+                pos.second--;
+                break;
+        }
+        return pos;
+    }
 
     enum ShipType {
         DESTROYER = 1,
@@ -22,36 +60,21 @@ public:
         CARRIER = 5
     };
 
-    const std::map<ShipType, std::string> ShipTypeToName {
-        { ShipType::DESTROYER, "Destroyer" },
-        { ShipType::SUBMARINE, "Submarine" },
-        { ShipType::CRUISER, "Cruiser" },
-        { ShipType::BATTLESHIP, "Battleship" },
-        { ShipType::CARRIER, "Carrier" },
-    };
+    static std::map<ShipType, std::string> ShipTypeToName;
+    static std::map<ShipType, int> ShipTypeToSize;
 
-    const std::map<ShipType, uint8_t> ShipTypeToSize {
-        { ShipType::DESTROYER, 2 },
-        { ShipType::SUBMARINE, 3 },
-        { ShipType::CRUISER, 3 },
-        { ShipType::BATTLESHIP, 4 },
-        { ShipType::CARRIER, 5 },
-    };
-
-private:
     ShipType type;
     Bearing bearing;
-    std::pair<int, int> pos;
+    Pos pos;
     std::vector<bool> hits;
+    std::vector<Pos>  coords;
     bool destroyed = false;
 
-public:
+    Ship() = default;
     Ship(ShipType _type, Bearing _bearing, std::pair<int, int> _pos);
-    void isHit();
-    ~Ship();
+    ~Ship() = default;
 
-    bool getDestroyed() const { return destroyed; }
-    void setDestroyed(bool destroyed_) { destroyed = destroyed_; }
+    void isHit();
 
 private:
     void destroyShip();

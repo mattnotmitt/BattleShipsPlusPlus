@@ -5,49 +5,22 @@
 #include "DrawBattleships/Screen.h"
 #include "BattleshipsLogic/Board.h"
 
-#define START_X 2
-#define START_Y 2
-
-/**
- * 
- */
-void ncursesInit();
-
-/**
- * draw grid starting at position in args
- */
-void drawGrid(int x = START_X, int y = START_Y);
 
 int main(int, char**) {
-    ncursesInit();
+    auto screen = Screen();
 
-    WINDOW *player_win;
+    screen.placePlayerShip(Ship::ShipType::CARRIER);
+    screen.placePlayerShip(Ship::ShipType::BATTLESHIP);
+    screen.placePlayerShip(Ship::ShipType::CRUISER);
+    screen.placePlayerShip(Ship::ShipType::SUBMARINE);
+    screen.placePlayerShip(Ship::ShipType::DESTROYER);
 
-	player_win = newwin(24, 47, START_Y, START_X);
-	auto grid = std::string(GRID);
-    grid.replace(Board::posToTxtPos(Pos(9,9)), 1, "*");
-    wprintw(player_win, grid.c_str());
-    mvwprintw(player_win, 23, 20, "PLAYER");
-	wrefresh(player_win);		/* Show that box 		*/    
-
-    WINDOW *enemy_win;
-
-	enemy_win = newwin(24, 47, START_Y, START_X + 49);
-	auto egrid = std::string(GRID);
-    egrid.replace(Board::posToTxtPos(Pos(1,1)), 1, "*");
-    wprintw(enemy_win, egrid.c_str());
-    mvwprintw(enemy_win, 23, 21, "ENEMY");
-	wrefresh(enemy_win);		/* Show that box 		*/    
+    wclear(screen.cmdDisp);
+    std::string msg("Enemy AI is arranging their fleet...");
+    mvwprintw(screen.cmdDisp, 0, 0, msg.c_str());
+    wrefresh(screen.cmdDisp);
 
     getch();
-
-    endwin();
+    endwin(); 
 	return 0;
-}
-
-void ncursesInit() {
-    initscr();
-    clear();
-    noecho();
-    refresh();
 }

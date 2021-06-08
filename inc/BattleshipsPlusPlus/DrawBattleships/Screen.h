@@ -5,15 +5,25 @@
 #include "BattleshipsLogic/Board.h"
 #include "BattleshipsLogic/GameState.h"
 
+#define START_X    4
+#define START_Y    4
+#define WIN_HEIGHT 24
+#define WIN_WIDTH  47
+#define SPACING    2
+
 class Screen {
 private:
-    GameState gameState;
+    GameState state;
+    
 public:
     Screen();
     ~Screen() = default;
 
-    void placeShip();
+    void placePlayerShip(Ship::ShipType type);
+    void placeAiShips();
+
+    static std::wstring drawShipOnBoard(Board board, const Ship& ship);
+    WINDOW*   cmdDisp;
 private:
-    void draw();
     void drawBoards();
 };
