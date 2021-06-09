@@ -10,7 +10,7 @@ Board::Board()
     misses.reserve(100);
 }
 
-bool Board::isPosInShip(Pos pos) {
+bool Board::isPosInShip(Pos pos) const {
     for (auto const &ship : ships) {
         if (std::find(ship.coords.begin(), ship.coords.end(), pos) != ship.coords.end()) {
             return true;

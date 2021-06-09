@@ -21,7 +21,7 @@ int main(int, char**) {
     mvwprintw(screen.cmdDisp, 0, 0, msg.c_str());
     wrefresh(screen.cmdDisp);
 
-    botPlaceShips(screen.state.aiBoard);
+    botPlaceShips(screen.state.aiBoard, false);
     usleep(15 * 100000UL);
 
     getch();

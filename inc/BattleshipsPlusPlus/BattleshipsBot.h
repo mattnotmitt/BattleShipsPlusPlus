@@ -17,4 +17,4 @@ class BattleshipsBot {
     } mode;
 };
 
-void botPlaceShips(Board board);
+void botPlaceShips(Board& board, bool isPlayerBoard);

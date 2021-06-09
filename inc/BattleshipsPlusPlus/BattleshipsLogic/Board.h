@@ -45,7 +45,7 @@ public:
     Board();
     ~Board() = default;
 
-    bool isPosInShip(Pos pos);
+    bool isPosInShip(Pos pos) const;
     void placeShip(Ship::ShipType type, Ship::Bearing bearing, Pos pos);
     static int posToTxtPos(Pos pos);
     static Pos coordToPos(char* coord);

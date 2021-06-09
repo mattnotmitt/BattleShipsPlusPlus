@@ -4,7 +4,7 @@
 #include <stdexcept>
 #include <unistd.h>
 
-bool isValidPos(Board& board, const Ship& ship);
+bool isValidPos(const Board& board, const Ship& ship, std::wstring& boardTxt);
 
 int randInt(int min, int max) {
     std::random_device rd;     // only used once to initialise (seed) engine
@@ -14,10 +14,11 @@ int randInt(int min, int max) {
     return uni(rng);
 }
 
-void botPlaceShips(Board board) {
+void botPlaceShips(Board& board, bool isPlayerBoard = true) {
     Ship::ShipType types[5] = {Ship::ShipType::CARRIER, Ship::ShipType::BATTLESHIP, Ship::ShipType::CRUISER, Ship::ShipType::SUBMARINE, Ship::ShipType::DESTROYER};
-    Ship::Bearing bearing = static_cast<Ship::Bearing>(randInt(1,4));
+    std::wstring tempBoardTxt;
     for (auto const& type : types) {
+        Ship::Bearing bearing = static_cast<Ship::Bearing>(randInt(1,4));
         bool valid = false;
         do {
             bool determiningBearing = true;
@@ -25,8 +26,9 @@ void botPlaceShips(Board board) {
             Pos  rPos(randInt(0,9), randInt(0,9));
             Ship rShip(type, bearing, rPos);
             do {
-                if (isValidPos(board, rShip)) {
-                    mvwaddwstr(board.display, 0, 0, board.txt.c_str());
+                tempBoardTxt = board.txt;
+                if (isValidPos(board, rShip, tempBoardTxt)) {
+                    mvwaddwstr(board.display, 0, 0, tempBoardTxt.c_str());
                     wrefresh(board.display);
                     usleep(500000);
                     board.placeShip(type, bearing, rPos);
@@ -41,7 +43,7 @@ void botPlaceShips(Board board) {
                 }
             } while (determiningBearing);
         } while(!valid);
-
+        board.txt = tempBoardTxt;
     }
 }
 
@@ -49,7 +51,7 @@ void botPlaceShips(Board board) {
  * Yes I am aware this is almost functionally equivalent to
  * Screen::drawShipOnBoard but you have to pay me to do refactors
  */
-bool isValidPos(Board& board, const Ship& ship) {
+bool isValidPos(const Board& board, const Ship& ship, std::wstring& boardTxt) {
     auto size      = Ship::ShipTypeToSize[ship.type];
     auto pos       = ship.pos;
     
@@ -61,7 +63,7 @@ bool isValidPos(Board& board, const Ship& ship) {
             return false;
         } 
         // Debug line, obvs we don't want to have this in game
-        board.txt.replace(Board::posToTxtPos(pos), 1, SHIP_TILE);
+        boardTxt.replace(Board::posToTxtPos(pos), 1, SHIP_TILE);
         pos = Ship::nextPosFromBearing(ship.bearing, pos);
     }
     return true;
